@@ -4,7 +4,8 @@ import 'package:moises_dart/api.dart';
 import 'package:moises_dart/file.dart';
 
 void main() async {
-  final apiKey = String.fromEnvironment('moises_api_key');
+  final apiKey = Platform.environment['moises_api_key'] ??
+      String.fromEnvironment('moises_api_key');
   final client = MusicAiClient(apiKey: apiKey);
 
   final file = File('path/to/file.mp3');
