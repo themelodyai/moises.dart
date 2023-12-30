@@ -1,4 +1,5 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library;
+library moises.dart;
+
+export 'api.dart';
+export 'file.dart';
+export 'src/job.dart';
