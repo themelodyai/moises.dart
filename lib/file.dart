@@ -5,6 +5,7 @@ import 'package:moises_dart/api.dart';
 import 'package:http/http.dart' as http;
 
 extension FileMusicAi on MusicAiClient {
+  /// Request an [uploadUrl] and an [downloadUrl] from our server.
   Future<(String uploadUrl, String downloadUrl)> requestSignedURLs() async {
     final url = Uri.parse('https://api.music.ai/api/upload');
     final response = await http.get(url, headers: {'Authorization': apiKey});
@@ -17,6 +18,18 @@ extension FileMusicAi on MusicAiClient {
     }
   }
 
+  /// Upload your local file to the provided [uploadUrl].
+  ///
+  /// If [uploadUrl] is not provided, it will be requested from the server using
+  /// [requestSignedURLs].
+  ///
+  /// ```dart
+  /// final file = File('path/to/file.mp3');
+  /// final bytes = await file.readAsBytes();
+  /// final downloadUrl = await client.uploadFile(bytes);
+  /// ```
+  ///
+  /// Returns the [downloadUrl] of the uploaded file.
   Future<String?> uploadFile(List<int> bytes, {String? uploadUrl}) async {
     String? downloadUrl;
     if (uploadUrl == null) {
