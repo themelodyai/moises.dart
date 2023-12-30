@@ -5,7 +5,7 @@ class LyricsTranscription {
 
   factory LyricsTranscription.fromJson(List<Map<String, dynamic>> json) {
     final sentences = json.map((sentence) {
-      final words = sentence['words'] as List<Map<String, dynamic>>;
+      final words = (sentence['words'] as List).cast<Map>();
       return LyricsTranscriptionSentence(
         start: sentence['start'] as double,
         end: sentence['end'] as double,
@@ -23,6 +23,9 @@ class LyricsTranscription {
     }).toList();
     return LyricsTranscription(sentences: sentences);
   }
+
+  @override
+  String toString() => sentences.map((e) => e.text).join('\n');
 }
 
 class LyricsTranscriptionSentence {

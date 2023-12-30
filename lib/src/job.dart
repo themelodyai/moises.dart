@@ -33,12 +33,15 @@ class Job {
   /// parameters has not a defined structure and may be null.
   final (String? id, String? name, Map? params) workflow;
 
+  final Map<String, dynamic> result;
+
   /// Creates a new job.
   const Job({
     required this.id,
     required this.name,
     required this.status,
     required this.workflow,
+    required this.result,
   });
 
   factory Job.fromJson(Map<String, dynamic> json) {
@@ -58,6 +61,7 @@ class Job {
           json['workflowParams'] as Map?,
         );
       }(),
+      result: json['result'] as Map<String, dynamic>,
     );
   }
 
@@ -74,11 +78,16 @@ class Job {
         other.id == id &&
         other.name == name &&
         other.status == status &&
-        other.workflow == workflow;
+        other.workflow == workflow &&
+        other.result == result;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ status.hashCode ^ workflow.hashCode;
+    return id.hashCode ^
+        name.hashCode ^
+        status.hashCode ^
+        workflow.hashCode ^
+        result.hashCode;
   }
 }
