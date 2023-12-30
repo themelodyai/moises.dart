@@ -5,11 +5,17 @@ import 'package:http/http.dart' as http;
 import 'src/job.dart';
 
 class MusicAiClient {
+  /// Every request to the API must be authenticated with an API Key.
+  ///
+  /// You can generate an API Key in your dashboard.
+  ///
+  /// See also:
+  ///
+  ///   * <https://music.ai/docs/api/authentication/>
   final String apiKey;
 
-  const MusicAiClient({
-    required this.apiKey,
-  });
+  /// Creates a music.ai client.
+  const MusicAiClient({required this.apiKey});
 
   /// Returns a single job.
   Future<Job> getJob(String id) async {

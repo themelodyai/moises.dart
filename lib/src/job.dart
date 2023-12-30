@@ -13,11 +13,27 @@ enum JobStatus {
 }
 
 class Job {
+  /// The unique identifier for this job.
   final String id;
+
+  /// The name of this job.
   final String name;
+
+  /// The current status of this job.
+  ///
+  /// The status may take time to update.
   final JobStatus status;
+
+  /// The workflow that this job is running.
+  ///
+  /// The workflow may be null if the job has not started yet or if it has
+  /// failed.
+  ///
+  /// The workflow is a tuple of the workflow id, name, and parameters. The
+  /// parameters has not a defined structure and may be null.
   final (String? id, String? name, Map? params) workflow;
 
+  /// Creates a new job.
   const Job({
     required this.id,
     required this.name,
