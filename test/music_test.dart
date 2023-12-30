@@ -1,4 +1,4 @@
-import 'package:music_ai_dart/music.dart';
+import 'package:moises_dart/music.dart';
 import 'package:test/test.dart';
 
 void main() {
