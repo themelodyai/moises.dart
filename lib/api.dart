@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:http/http.dart' as http;
+
+import 'src/job.dart';
 
 class MusicAiClient {
   final String apiKey;
@@ -11,12 +12,13 @@ class MusicAiClient {
   });
 
   /// Returns a single job.
-  Future getJob(String id) async {
+  Future<Job> getJob(String id) async {
     final url = Uri.parse('https://api.music.ai/api/job/$id');
     final response = await http.get(url, headers: {'Authorization': apiKey});
 
     if (response.statusCode == 200) {
-      return response.body;
+      final result = jsonDecode(response.body);
+      return Job.fromJson(result);
     } else {
       throw Exception('Failed to load job');
     }
@@ -28,9 +30,12 @@ class MusicAiClient {
     final response = await http.get(url, headers: {'Authorization': apiKey});
 
     if (response.statusCode == 200) {
-      return response.body;
+      final result = (jsonDecode(response.body) as List).cast<Map>();
+      return result
+          .map((job) => Job.fromJson(job.cast<String, dynamic>()))
+          .toList();
     } else {
-      throw Exception('Failed to load job');
+      throw Exception('Failed to load jobs: ${response.body}');
     }
   }
 
