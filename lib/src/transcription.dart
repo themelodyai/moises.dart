@@ -42,6 +42,11 @@ class LyricsTranscriptionSentence {
     required this.words,
     required this.language,
   });
+
+  @override
+  String toString() {
+    return 'LyricsTranscriptionSentence(start: $start, end: $end, text: $text, words: $words, language: $language)';
+  }
 }
 
 class LyricsTranscriptionWord {
@@ -56,4 +61,9 @@ class LyricsTranscriptionWord {
     required this.end,
     required this.score,
   });
+
+  @override
+  String toString() {
+    return 'LyricsTranscriptionWord(word: $word, start: $start, end: $end, score: $score)';
+  }
 }

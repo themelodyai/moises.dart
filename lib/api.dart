@@ -26,7 +26,7 @@ class MusicAiClient {
       final result = jsonDecode(response.body);
       return Job.fromJson(result);
     } else {
-      throw Exception('Failed to load job');
+      throw Exception('Failed to load job: ${response.body}');
     }
   }
 
@@ -59,7 +59,10 @@ class MusicAiClient {
         'workflow': workflowId,
         'params': params,
       }),
-      headers: {'Authorization': apiKey},
+      headers: {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json',
+      },
     );
 
     if (response.statusCode == 200) {

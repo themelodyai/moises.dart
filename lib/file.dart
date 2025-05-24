@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:moises_dart/api.dart';
 import 'package:http/http.dart' as http;
 
 extension FileMusicAi on MusicAiClient {
-  /// Request an [uploadUrl] and an [downloadUrl] from our server.
+  /// Request an [uploadUrl] and a [downloadUrl] from our server.
   Future<(String uploadUrl, String downloadUrl)> requestSignedURLs() async {
     final url = Uri.parse('https://api.music.ai/api/upload');
     final response = await http.get(url, headers: {'Authorization': apiKey});
@@ -18,14 +16,13 @@ extension FileMusicAi on MusicAiClient {
     }
   }
 
-  /// Upload your local file to the provided [uploadUrl].
+  /// Upload your file bytes to the provided [uploadUrl].
   ///
   /// If [uploadUrl] is not provided, it will be requested from the server using
   /// [requestSignedURLs].
   ///
   /// ```dart
-  /// final file = File('path/to/file.mp3');
-  /// final bytes = await file.readAsBytes();
+  /// final bytes = await File('path/to/file.mp3').readAsBytes();
   /// final downloadUrl = await client.uploadFile(bytes);
   /// ```
   ///
@@ -36,9 +33,13 @@ extension FileMusicAi on MusicAiClient {
       (uploadUrl, downloadUrl) = await requestSignedURLs();
     }
 
-    final request = await HttpClient().putUrl(Uri.parse(uploadUrl));
-    request.add(bytes);
-    final response = await request.close();
+    final response = await http.put(
+      Uri.parse(uploadUrl),
+      headers: {
+        'Content-Type': 'audio/mpeg',
+      },
+      body: bytes,
+    );
 
     if (response.statusCode != 200) {
       throw Exception('Failed to upload file: ${response.statusCode}');
