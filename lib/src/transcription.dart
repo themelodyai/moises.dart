@@ -3,6 +3,8 @@ class LyricsTranscription {
 
   const LyricsTranscription({required this.sentences});
 
+  const LyricsTranscription.empty() : sentences = const [];
+
   factory LyricsTranscription.fromJson(List<Map<String, dynamic>> json) {
     final sentences = json.map((sentence) {
       final words = (sentence['words'] as List).cast<Map>();
@@ -19,6 +21,14 @@ class LyricsTranscription {
           );
         }),
         language: sentence['language'] as String,
+        singers: sentence['singers'] != null
+            ? () {
+                final singers = sentence['singers'] as String;
+                return singers.isNotEmpty
+                    ? singers.split(',').map((s) => s.trim()).toList()
+                    : const <String>[];
+              }()
+            : const <String>[],
       );
     }).toList();
     return LyricsTranscription(sentences: sentences);
@@ -34,6 +44,7 @@ class LyricsTranscriptionSentence {
   final String text;
   final Iterable<LyricsTranscriptionWord> words;
   final String language;
+  final List<String> singers;
 
   const LyricsTranscriptionSentence({
     required this.start,
@@ -41,6 +52,7 @@ class LyricsTranscriptionSentence {
     required this.text,
     required this.words,
     required this.language,
+    required this.singers,
   });
 
   @override
