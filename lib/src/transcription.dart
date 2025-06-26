@@ -21,9 +21,9 @@ class LyricsTranscription {
           );
         }),
         language: sentence['language'] as String,
-        singers: sentence['singers'] != null
+        singers: sentence['singer'] != null
             ? () {
-                final singers = sentence['singers'] as String;
+                final singers = sentence['singer'] as String;
                 return singers.isNotEmpty
                     ? singers.split(',').map((s) => s.trim()).toList()
                     : const <String>[];
